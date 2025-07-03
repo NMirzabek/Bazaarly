@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.bazaarly.entity.base.BaseEntity;
 
-import java.util.Base64;
+
 import java.util.List;
 
 @Entity

@@ -1,7 +1,7 @@
 package org.example.bazaarly.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.bazaarly.dto.CategoryDTO;
+import org.example.bazaarly.dto.request.CategoryDTO;
 import org.example.bazaarly.entity.Category;
 import org.example.bazaarly.service.interfaces.CategoryService;
 import org.springframework.http.HttpEntity;

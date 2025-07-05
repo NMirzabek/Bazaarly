@@ -12,5 +12,7 @@ import org.example.bazaarly.entity.base.BaseEntity;
 @NoArgsConstructor
 
 public class Category extends BaseEntity {
+
     private String name;
+
 }

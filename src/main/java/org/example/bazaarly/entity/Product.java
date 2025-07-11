@@ -13,6 +13,7 @@ import org.example.bazaarly.entity.base.BaseEntity;
 @NoArgsConstructor
 
 public class Product extends BaseEntity {
+
     private String name;
     private Double price;
 

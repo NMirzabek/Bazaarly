@@ -4,5 +4,5 @@ import lombok.Value;
 
 @Value
 public class LoginRes {
-    private String token;
+    String token;
 }

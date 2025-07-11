@@ -34,7 +34,7 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**"
                         ).permitAll()
-                        .requestMatchers("/api//v1/auth", "/api/v1/auth/**").permitAll()
+                        .requestMatchers("/api/v1/auth", "/api/v1/auth/**").permitAll()
                         .anyRequest().authenticated());
         http.addFilterBefore(mySecurityFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
@@ -53,13 +53,6 @@ public class SecurityConfig {
         return authProvider;
     }
 
-
-//    @Bean
-//    AuthenticationProvider authenticationProvider(UserDetailsService uds, PasswordEncoder passwordEncoder) {
-//        DaoAuthenticationProvider provider = new DaoAuthenticationProvider(uds);
-//        provider.setPasswordEncoder(passwordEncoder);
-//        return provider;
-//    }
 
     @Bean
     public AuthenticationManager authenticationManager() {

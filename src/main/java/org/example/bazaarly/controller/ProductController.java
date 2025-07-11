@@ -2,15 +2,13 @@ package org.example.bazaarly.controller;
 
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
+import org.example.bazaarly.dto.request.ProductDTO;
 import org.example.bazaarly.entity.Product;
 import org.example.bazaarly.service.interfaces.ProductService;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,5 +28,11 @@ public class ProductController {
     ) {
         List<Product> products = productService.getAll();
         return new ResponseEntity<>(products, HttpStatus.OK);
+    }
+
+    @PostMapping
+    public HttpEntity<?> createProduct(@RequestBody ProductDTO productDTO) {
+        Product saved = productService.save(productDTO);
+        return new ResponseEntity<>(saved, HttpStatus.CREATED);
     }
 }

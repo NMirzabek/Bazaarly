@@ -30,7 +30,7 @@ public class JwtService {
                 .claim("id", user.getId())
                 .claim("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.joining(",")))
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis()+1000*60*60*24))
+                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
                 .signWith(getSecretKey())
                 .compact();
     }
@@ -43,7 +43,7 @@ public class JwtService {
                 .claim("id", user.getId())
                 .claim("roles", user.getRoles().stream().map(Role::getName).collect(Collectors.joining(",")))
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis()+1000*60*60*24*7))
+                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 7))
                 .signWith(getSecretKey())
                 .compact();
     }

@@ -14,17 +14,14 @@ import org.example.bazaarly.repo.CategoryRepository;
 import org.springdoc.core.customizers.OpenApiCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
-
-import static org.aspectj.weaver.tools.cache.SimpleCacheFactory.path;
 
 @Configuration
 @OpenAPIDefinition(
         info = @Info(title = "Bazaarly", version = "v1", description = "Demo API"),
-        servers = @Server(url = "http://localhost:8080")
+        servers = @Server(url = "http://localhost:8080"),
+        security = @io.swagger.v3.oas.annotations.security.SecurityRequirement(name = "bearerAuth")
 )
 public class OpenApiConfig {
 
@@ -47,11 +44,11 @@ public class OpenApiConfig {
         return openApi -> {
             List<Category> categories = categoryRepository.findAll();
             List<String> categoryNames = categories.stream().map(Category::getName).toList();
-            openApi.getPaths().forEach(( path,  pathItem) -> {
-                pathItem.readOperations().forEach( operation -> {
+            openApi.getPaths().forEach((path, pathItem) -> {
+                pathItem.readOperations().forEach(operation -> {
                     List<Parameter> parameters = operation.getParameters();
                     if (parameters != null) {
-                        parameters.forEach( parameter -> {
+                        parameters.forEach(parameter -> {
                             if ("categoryName".equals(parameter.getName())) {
                                 Schema<String> schema = parameter.getSchema();
                                 if (schema != null) {

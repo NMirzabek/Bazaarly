@@ -13,4 +13,5 @@ import org.example.bazaarly.entity.base.BaseEntity;
 public class Attachment extends BaseEntity {
 
     private String imgUrl;
+    private byte[] content;
 }

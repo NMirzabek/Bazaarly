@@ -1,36 +1,29 @@
-version: '3.8'
-
 services:
   postgres-db:
-    image: postgres:15
-    container_name: postgres-db
+    image: postgres:16
+    restart: always
     environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: bazaarly
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: root123
     ports:
       - "5432:5432"
     volumes:
-      - pgdata:/var/lib/postgresql/data
-    networks:
-      - bazaarly-network
+      - postgres_data:/var/lib/postgresql/data
+      - ./backup:/docker-entrypoint-initdb.d
 
-  springboot-app:
-    build: .
-    container_name: bazaarly-app
+  bazaarly-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres-db
     ports:
       - "8080:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-db:5432/bazaarly
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: root123
-    depends_on:
-      - postgres-db
-    networks:
-      - bazaarly-network
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+    restart: always
 
 volumes:
-  pgdata:
-
-networks:
-  bazaarly-network:
+  postgres_data:

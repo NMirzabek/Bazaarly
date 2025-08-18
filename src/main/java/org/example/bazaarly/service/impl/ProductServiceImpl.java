@@ -1,6 +1,7 @@
 package org.example.bazaarly.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.example.bazaarly.dto.projections.ProductProjection;
 import org.example.bazaarly.dto.request.ProductDTO;
 import org.example.bazaarly.entity.Attachment;
 import org.example.bazaarly.entity.Category;
@@ -24,8 +25,8 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
 
     @Override
-    public List<Product> getAll() {
-        return productRepository.findAll();
+    public List<ProductProjection> getAll() {
+        return productRepository.findAllBy();
     }
 
     @Override

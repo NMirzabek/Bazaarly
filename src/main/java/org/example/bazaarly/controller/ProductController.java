@@ -2,6 +2,7 @@ package org.example.bazaarly.controller;
 
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
+import org.example.bazaarly.dto.projections.ProductProjection;
 import org.example.bazaarly.dto.request.ProductDTO;
 import org.example.bazaarly.entity.Product;
 import org.example.bazaarly.service.interfaces.ProductService;
@@ -26,7 +27,7 @@ public class ProductController {
             @Parameter(name = "categoryName", description = "Choose one category")
             @RequestParam(required = false) String categoryName
     ) {
-        List<Product> products = productService.getAll();
+        List<ProductProjection> products = productService.getAll();
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 

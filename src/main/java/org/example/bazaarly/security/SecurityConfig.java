@@ -3,6 +3,7 @@ package org.example.bazaarly.security;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
@@ -21,8 +22,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
-@Configuration
 @EnableMethodSecurity
+@Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
 
@@ -37,13 +38,17 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/swagger-ui.html",
                                 "/swagger-ui/**",
-                                "/v3/api-docs/**"
+                                "/v3/api-docs/**",
+                                "/h2-console", "/h2-console/**"
                         ).permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/file/**").permitAll()
                         .requestMatchers("/api/v1/auth", "/api/v1/auth/**").permitAll()
-                        .anyRequest().authenticated());
+                        .anyRequest().authenticated()
+        );
         http.addFilterBefore(mySecurityFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -64,17 +69,18 @@ public class SecurityConfig {
         return new ProviderManager(authenticationProvider());
     }
 
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("*")); // yoki frontend URL
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("*"));
-        configuration.setAllowCredentials(true);
+//    @Bean
+//    public CorsConfigurationSource corsConfigurationSource() {
+//        CorsConfiguration c = new CorsConfiguration();
+//        c.setAllowedOrigins(List.of("http://localhost:63342", "http://localhost:8080"));
+//        c.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
+//        c.setAllowedHeaders(List.of("Authorization", "Content-Type", "X-Requested-With"));
+//        c.setAllowCredentials(true);
+//
+//        UrlBasedCorsConfigurationSource s = new UrlBasedCorsConfigurationSource();
+//        s.registerCorsConfiguration("/**", c);
+//        return s;
+//    }
 
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
 
 }

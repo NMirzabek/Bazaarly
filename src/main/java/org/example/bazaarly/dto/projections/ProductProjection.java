@@ -8,5 +8,5 @@ public interface ProductProjection {
     String getName();
     Double getPrice();
     String getCategoryName();
-    UUID getAttachmentId();
+    String getAttachmentImgUrl();
 }

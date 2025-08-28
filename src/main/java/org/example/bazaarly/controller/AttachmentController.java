@@ -2,8 +2,10 @@ package org.example.bazaarly.controller;
 
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.example.bazaarly.entity.Attachment;
 import org.example.bazaarly.repo.AttachmentRepository;
+import org.example.bazaarly.service.interfaces.AttachmentService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,26 +17,18 @@ import static org.example.bazaarly.utils.AppConstants.*;
 @MultipartConfig
 @RestController
 @RequestMapping(API_PATH + API_VERSION + "/file")
-public class FileController {
+@RequiredArgsConstructor
+public class AttachmentController {
 
-    private final AttachmentRepository attachmentRepository;
-
-    public FileController(AttachmentRepository attachmentRepository) {
-        this.attachmentRepository = attachmentRepository;
-    }
+    private final AttachmentService attachmentService;
 
     @PostMapping
     public UUID uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
-        Attachment attachment = new Attachment();
-        attachment.setImgUrl(file.getOriginalFilename());
-        attachment.setContent(file.getBytes());
-        Attachment saved = attachmentRepository.save(attachment);
-        return saved.getId();
+        return attachmentService.upload(file);
     }
 
     @GetMapping("/{attachmentId}")
     public void getFile(@PathVariable UUID attachmentId, HttpServletResponse response) throws IOException {
-        Attachment attachment = attachmentRepository.findById(attachmentId).orElseThrow();
-        response.getOutputStream().write(attachment.getContent());
+        attachmentService.get(attachmentId, response);
     }
 }

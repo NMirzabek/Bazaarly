@@ -33,7 +33,7 @@
         for(let product of res.data) {
             s+=`<div class="col-3">
         <div class="card">
-            <img src="http://localhost:8080/api/v1/file/${product.attachmentId}" alt="rasm">
+            <img src="${product.attachmentImgUrl}" alt="rasm">
             <p>
                 ${product.name}
                 <br>
